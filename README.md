@@ -53,7 +53,7 @@ General procedure of using pyrayts as python module is described below:
 5. export rendered image. (only BMP format)
 
         import pyrayts.bmpLib 
-        outbmp = pyrayts.bmpLib.bmpLib(o"./test.bmp", 320, 240)
+        outbmp = pyrayts.bmpLib.bmpLib("./test.bmp", 320, 240)
         outbmp.save(renderScene.imageBuffer)
 
 if you want to know more, analyze in 'main.py'
