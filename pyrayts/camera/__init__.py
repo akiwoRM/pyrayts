@@ -28,6 +28,7 @@ from .. color     import *
 class camera(transform):
 	def __init__(self, **args):
 		self.angle  = 35
+		self.translate = vector(0,0,-5)
 		self.aimPos = vector(0,0,0)
 		self.nearClip = 0.001
 		self.farClip  = 100000
