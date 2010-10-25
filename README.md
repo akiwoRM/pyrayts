@@ -3,6 +3,11 @@ Pyrayts
 
 Pyrayts is ray tracer package by python.
 
+Code license
+-------
+
+New BSD License
+
 System require
 -------
 
