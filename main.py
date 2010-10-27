@@ -92,12 +92,17 @@ def main():
 	
 	renderScene.render()
 
+	edTime = time.time()
+	msg.trace("Render Time : %.6ss"%(edTime - stTime))
+
+	# create preview window
+	if not renderScene.preview():
+		msg.trace("Don't use preview function for nothing 'wx' module.", "=","Warning")
+
 	# output bmp File
 	outbmp = bl.bmpLib(outputFile, width, height)
 	outbmp.save(renderScene.imageBuffer)
 	
-	edTime = time.time()
-	msg.trace("Render Time : %.6ss"%(edTime - stTime))
 	msg.separator()
 	msg.trace("pyrayts render","}","Finish")
 	msg.trace("output image:"+outputFile)

@@ -22,6 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 from .. color import *
+import struct
 
 class baseImage:
 	def __init__(self, w=640,h=480):
@@ -30,4 +31,10 @@ class baseImage:
 		self.col    = [color(0, 0, 0)] * (self.width*self.height)
 	def setColor(self, x, y, color):
 		self.col[self.width*y+x] = color
-
+	def toWXImage(self):
+		buf = ""
+		for c in self.col:
+			buf += struct.pack("B", int(c.r*255))
+			buf += struct.pack("B", int(c.g*255))
+			buf += struct.pack("B", int(c.b*255))
+		return buf

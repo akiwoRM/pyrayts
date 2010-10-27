@@ -37,4 +37,6 @@ class color:
 			return color(self.r*val.r, self.g*val.g, self.b*val.b) 
 		else:
 			return color(self.r*val, self.g*val, self.b*val)
+	def display(self):
+		print self.r, self.g, self.b
 

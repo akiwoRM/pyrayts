@@ -29,6 +29,15 @@ from shape     import *
 from shading   import *
 from ray       import *
 from baseImage import *
+
+try:
+	import wx
+	from preview import *
+except:
+	WXPYTHON = False
+else:
+	WXPYTHON = True
+
 class scene:
 	def __init__(self):
 		self.width   = 320
@@ -37,11 +46,13 @@ class scene:
 		self.lights  = []
 		self.camera  = camera()
 		self.bgCol   = color()
+
 	def append(self, obj):
 		if   obj.classname()=='shape':
 			self.objects.append(obj)
 		elif obj.classname()=='light':
 			self.lights.append(obj)
+
 	def setColor(self, i, j):
 		camUnit = self.camera.axisConv(vector(i-self.imageBuffer.width*0.5, self.imageBuffer.height*0.5 - j,0))
 		eye = ray(self.camera.translate, camUnit)
@@ -57,12 +68,22 @@ class scene:
 		self.camera = cam 
 		self.camera.initAxis(self.imageBuffer.width)
 		self.bgCol = cam.bg_color;
+
 	def setImageBuffer(self, width, height):
 		self.imageBuffer = baseImage(width, height)
 		self.width  = width
 		self.height = height
+
 	def render(self):
 		for j in range(self.height):
 			for i in range(self.width):
 				self.setColor(i, j)
-
+	def preview(self):	
+		if WXPYTHON:
+			app   = wx.App(False)
+			frame = PreviewWindow(None, -1, "Render Preview", self.imageBuffer)
+			frame.Show(True)
+			app.MainLoop()
+		else:
+			return 0
+		return 1
