@@ -13,7 +13,7 @@ System require
 
 * OS on intel CPU(powerPC not supported)
 * python 2.5 or later
-* wxPython (if you preview window)
+* wxPython (if you use preview function)
 
 Installation
 -------
@@ -55,7 +55,7 @@ General procedure of using pyrayts as python module is described below:
 
         renderScene.render()
 
-    if you want to check rendered image, display in popup window.(wxPython module required)
+    if you want to check rendered image, you can use preview method.(wxPython module required)
 
         renderScene.preview()
 
