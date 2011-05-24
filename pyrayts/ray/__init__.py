@@ -38,13 +38,16 @@ class ray:
 		outObjects.append(addObj)
 		return 0
 	
-	def intersect(self, objects, near, far):
+	def intersect(self, objects, near, far, myObject=""):
 		d=100000
 		hitIdx = -1
+		hitPos = vector()
 		for idx, obj in enumerate(objects):
-			if obj.intersect(self, near, far):
-				if d > obj.hitDist:
-					hitIdx = idx
-					d = obj.hitDist
-		return hitIdx
+			if myObject != obj:
+				if obj.intersect(self, near, far):
+					if d > obj.hitDist:
+						hitIdx = idx
+						d = obj.hitDist
+						hitPos = obj.hitPos
+		return hitIdx, hitPos
 

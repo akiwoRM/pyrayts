@@ -34,6 +34,7 @@ class baseImage:
 	def toWXImage(self):
 		buf = ""
 		for c in self.col:
+			c.display()
 			buf += struct.pack("B", int(c.r*255))
 			buf += struct.pack("B", int(c.g*255))
 			buf += struct.pack("B", int(c.b*255))

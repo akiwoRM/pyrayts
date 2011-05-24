@@ -57,10 +57,19 @@ class scene:
 		camUnit = self.camera.axisConv(vector(i-self.imageBuffer.width*0.5, self.imageBuffer.height*0.5 - j,0))
 		eye = ray(self.camera.translate, camUnit)
 
-		hitIdx = eye.intersect(self.objects, self.camera.nearClip, self.camera.farClip )
+		hitIdx, hitPos = eye.intersect(self.objects, self.camera.nearClip, self.camera.farClip )
 		
 		if hitIdx != -1:
-			self.imageBuffer.setColor(i, j, self.objects[hitIdx].shading(self.lights))
+			shadowFlag = 0
+			for lt in self.lights:
+				shadow_eye = ray(hitPos, (lt.translate-hitPos).normalize())
+				shadowRet = shadow_eye.intersect(self.objects, 0, 200, self.objects[hitIdx])
+				if shadowRet[0] != -1:
+					self.imageBuffer.setColor(i, j, color(0,0,0))
+					shadowFlag = 1
+					break
+			if not shadowFlag:
+				self.imageBuffer.setColor(i, j, self.objects[hitIdx].shading(self.lights))
 		else:
 			self.imageBuffer.setColor(i, j, self.bgCol)
 

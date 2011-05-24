@@ -52,25 +52,25 @@ def main():
 	lmtR = pyrayts.lambert(diffuseColor=pyrayts.color(0.7,0.2,0.2))
 
 	# create rendered objects
-	#sph  = pyrayts.sphere(pyrayts.vector( 0, 1, 0), 1.0)
-	#sph.setShader(lmt)
-	#renderScene.append(sph)
+	sph  = pyrayts.sphere(pyrayts.vector( 0, 1, 0), 1.0)
+	sph.setShader(lmt)
+	renderScene.append(sph)
 
 	#sph2 = pyrayts.sphere(pyrayts.vector( 0, 1.0, 0), 1.0)
 	#sph2.setShader(lmtR)
 	#renderScene.append(sph2)
 
-	poly = pyrayts.polygon3( pyrayts.vector(0,1,0),
-					 pyrayts.vector(0.7, 0, 0),
-					 pyrayts.vector(-0.7, 0, 0))
-	poly.setShader(lmtR)
-	renderScene.append(poly)
+	#poly = pyrayts.polygon3( pyrayts.vector(0,1,0),
+	#				 pyrayts.vector(0.7, 0, 0),
+	#				 pyrayts.vector(-0.7, 0, 0))
+	#poly.setShader(lmtR)
+	#renderScene.append(poly)
 
-	poly = pyrayts.polygon3( pyrayts.vector(    0, 1.0, 0),
-				   pyrayts.vector( 0.7, 0.0, 0.0),
-				   pyrayts.vector(-0.7, 0.0, 0.0))
-	poly.setShader(lmtR)
-	renderScene.append(poly)
+	#poly = pyrayts.polygon3( pyrayts.vector(    0, 1.0, 0),
+	#			   pyrayts.vector( 0.7, 0.0, 0.0),
+	#			   pyrayts.vector(-0.7, 0.0, 0.0))
+	#poly.setShader(lmtR)
+	#renderScene.append(poly)
 
 	pl = pyrayts.plane(y=0)
 	pl.setShader(lmt)
@@ -96,8 +96,8 @@ def main():
 	msg.trace("Render Time : %.6ss"%(edTime - stTime))
 
 	# create preview window
-	if not renderScene.preview():
-		msg.trace("Don't use preview function for nothing 'wx' module.", "=","Warning")
+	#if not renderScene.preview():
+	#	msg.trace("Don't use preview function for nothing 'wx' module.", "=","Warning")
 
 	# output bmp File
 	outbmp = bl.bmpLib(outputFile, width, height)
