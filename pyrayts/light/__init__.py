@@ -26,6 +26,7 @@ from .. transform import *
 
 class light(transform):
 	intencity = 1.0
+	isShadow  = False
 	dirVec    = vector(1.0, -1.0, 1.0)
 	def classname(self):
 		return 'light'

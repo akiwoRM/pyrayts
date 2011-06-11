@@ -62,6 +62,8 @@ class scene:
 		if hitIdx != -1:
 			shadowFlag = 0
 			for lt in self.lights:
+				if not lt.isShadow:
+					continue
 				shadow_eye = ray(hitPos, (lt.translate-hitPos).normalize())
 				shadowRet = shadow_eye.intersect(self.objects, 0, 200, self.objects[hitIdx])
 				if shadowRet[0] != -1:

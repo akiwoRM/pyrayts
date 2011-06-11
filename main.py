@@ -80,6 +80,7 @@ def main():
 	#lit = directionalLight()
 	lit = pyrayts.pointLight()
 	lit.intencity = 1.0
+	lit.isShadow  = True
 	lit.translate =  pyrayts.vector(-1.5, 2, -1.5)
 	renderScene.append(lit)
 	
