@@ -22,6 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 from .. color import *
+from .clamp import *
 import struct
 
 class baseImage:
@@ -34,8 +35,7 @@ class baseImage:
 	def toWXImage(self):
 		buf = ""
 		for c in self.col:
-			c.display()
-			buf += struct.pack("B", int(c.r*255))
-			buf += struct.pack("B", int(c.g*255))
-			buf += struct.pack("B", int(c.b*255))
+			buf += struct.pack("B", int(clamp(c.r*255)))
+			buf += struct.pack("B", int(clamp(c.g*255)))
+			buf += struct.pack("B", int(clamp(c.b*255)))
 		return buf

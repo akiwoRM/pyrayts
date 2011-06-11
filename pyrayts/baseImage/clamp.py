@@ -21,57 +21,9 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-import struct
-from .. baseImage.clamp import *
-
-"""
 def clamp(v, min=0, max=255):
 	if v < min:
 		return min
 	if v > max:
 		return max
 	return v
-"""
-
-class bmpLib:
-	def __init__(self, *args):
-		self.filename = args[0]
-		self.width    = args[1] 
-		self.height   = args[2]
-		self.bitDepth = 3
-
-	def setHeader(self, fp):
-		# BITMAPFILEHEADER
-		fp.write("BM")
-		fsize = 54 + self.width * self.height * 3
-		fp.write(struct.pack("I",fsize))
-		fp.write(struct.pack("H",0))
-		fp.write(struct.pack("H",0))
-		fp.write(struct.pack("I",54))
-
-		#BITMAPINFOHEADER
-		fp.write(struct.pack("I",40))
-		fp.write(struct.pack("I",self.width))
-		fp.write(struct.pack("I",self.height))
-		fp.write(struct.pack("H",1))
-		fp.write(struct.pack("H",8*self.bitDepth))
-		fp.write(struct.pack("I",0))
-		fp.write(struct.pack("I",0))
-		fp.write(struct.pack("I",3780))
-		fp.write(struct.pack("I",3780))
-		fp.write(struct.pack("I",0))
-		fp.write(struct.pack("I",0))
-
-
-	def save(self, buf):
-		fp = open(self.filename, "wb")
-		self.setHeader(fp)
-		#for b in buf:
-		#	fp.write(struct.pack("B",clamp(b*255)))
-		for h in reversed(range(1, self.height+1)):
-			for w in range(0, self.width):
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].b * 255)))
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].g * 255)))
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].r * 255)))
-		fp.close()
-

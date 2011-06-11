@@ -96,8 +96,8 @@ def main():
 	msg.trace("Render Time : %.6ss"%(edTime - stTime))
 
 	# create preview window
-	#if not renderScene.preview():
-	#	msg.trace("Don't use preview function for nothing 'wx' module.", "=","Warning")
+	if not renderScene.preview():
+		msg.trace("Don't use preview function for nothing 'wx' module.", "=","Warning")
 
 	# output bmp File
 	outbmp = bl.bmpLib(outputFile, width, height)
