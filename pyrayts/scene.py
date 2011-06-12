@@ -38,10 +38,17 @@ except:
 else:
 	WXPYTHON = True
 
+def averageCol(colList, divNum):
+	defCol = colList[0]
+	for col in colList[1:]:
+		defCol+=col
+	return defCol * divNum
+
 class scene:
 	def __init__(self):
 		self.width   = 320
 		self.height  = 240
+		self.antialiasing = 1
 		self.objects = []
 		self.lights  = []
 		self.camera  = camera()
@@ -53,7 +60,7 @@ class scene:
 		elif obj.classname()=='light':
 			self.lights.append(obj)
 
-	def setColor(self, i, j):
+	def _setColor(self, i, j):
 		camUnit = self.camera.axisConv(vector(i-self.imageBuffer.width*0.5, self.imageBuffer.height*0.5 - j,0))
 		eye = ray(self.camera.translate, camUnit)
 
@@ -67,13 +74,10 @@ class scene:
 				shadow_eye = ray(hitPos, (lt.translate-hitPos).normalize())
 				shadowRet = shadow_eye.intersect(self.objects, 0, 200, self.objects[hitIdx])
 				if shadowRet[0] != -1:
-					self.imageBuffer.setColor(i, j, color(0,0,0))
-					shadowFlag = 1
-					break
-			if not shadowFlag:
-				self.imageBuffer.setColor(i, j, self.objects[hitIdx].shading(self.lights))
-		else:
-			self.imageBuffer.setColor(i, j, self.bgCol)
+					return color(0,0,0)
+			return self.objects[hitIdx].shading(self.lights)
+		return self.bgCol
+		
 
 	def setCamera(self, cam):
 		self.camera = cam 
@@ -86,9 +90,22 @@ class scene:
 		self.height = height
 
 	def render(self):
+		numAntiSep = 1.0/self.antialiasing
+		numSample  = self.antialiasing*self.antialiasing
+		divAvg = 1.0/numSample
+		#[() for dx in range(self.antialiasing) for dy in range(self.antialiasing)]
+		
 		for j in range(self.height):
 			for i in range(self.width):
-				self.setColor(i, j)
+				outColors = []
+				outColors.append(self._setColor(i, j))
+				#for k in range(numSample):
+				#outColors.append(self._setColor(i+0.5, j-0.5))
+				#outColors.append(self._setColor(i+0.5, j+0.5))
+				#outColors.append(self._setColor(i-0.5, j+0.5))
+				#outColors.append(self._setColor(i-0.5, j-0.5))
+				self.imageBuffer.setColor(i, j, averageCol(outColors, divAvg))
+	
 	def preview(self):	
 		if WXPYTHON:
 			app   = wx.App(False)

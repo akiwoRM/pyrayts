@@ -32,6 +32,11 @@ class color:
 			self.r =  args[0]
 			self.g =  args[1]
 			self.b =  args[2]
+	def __add__(self, val):
+		if type(val) == type(color()):
+			return color(self.r+val.r, self.g+val.g, self.b+val.b) 
+		else:
+			return color(self.r+val, self.g+val, self.b+val)
 	def __mul__(self, val):
 		if type(val) == type(color()):
 			return color(self.r*val.r, self.g*val.g, self.b*val.b) 
