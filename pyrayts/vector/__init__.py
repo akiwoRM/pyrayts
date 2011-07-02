@@ -22,6 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 import math 
+
 class vector:
 	def __init__(self, *argv):
 		if argv == ():
@@ -56,11 +57,14 @@ class vector:
 			self.d = 1.0 / self.length()
 		return vector(self.x*self.d, self.y*self.d, self.z*self.d)
 
-def dot(vec1, vec2):
-	return vec1.x*vec2.x+vec1.y*vec2.y+vec1.z*vec2.z
+	@classmethod
+	def dot(cls, vec1, vec2):
+		return vec1.x*vec2.x+vec1.y*vec2.y+vec1.z*vec2.z
+	
+	@classmethod
+	def reflection(cls, vec1, norm):
+		return (vec1 - (norm * 2 * cls.dot(vec1, norm))).normalize()
 
-def reflection(vec1, norm):
-	return (vec1 - (norm * 2 * dot(vec1, norm))).normalize()
-
-def cross(vec1, vec2):
-	return vector(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x*vec2.y - vec1.y * vec2.x)
+	@classmethod
+	def cross(cls, vec1, vec2):
+		return vector(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x*vec2.y - vec1.y * vec2.x)

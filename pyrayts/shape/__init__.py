@@ -52,8 +52,8 @@ class sphere(shape):
 		self.shader = lambert()
 	def intersect(self, eye, nearClip, farClip):
 		xc = eye.pos - self.pos
-		xdt = dot(eye.unit,xc)
-		de = xdt * xdt - dot(xc,xc) + self.radius *self.radius
+		xdt = vector.dot(eye.unit,xc)
+		de = xdt * xdt - vector.dot(xc,xc) + self.radius *self.radius
 		
 		if de < 0:
 			return 0
@@ -93,7 +93,7 @@ class plane(shape):
 	def intersect(self, eye, nearClip, farClip):
 		if eye.unit.y == 0:
 			return 0
-		if dot(eye.unit.reverse(), self.normal) < 0:
+		if vector.dot(eye.unit.reverse(), self.normal) < 0:
 			return 0
 		tr = (self.y - eye.pos.y) / eye.unit.y
 		if tr <= 0:
@@ -117,16 +117,16 @@ class polygon3(shape):
 		self.normal = cross(self.e0, self.e1).normalize()
 	def intersect(self, eye, nearClip, farClip):
 		pvec = cross(eye.unit, self.e1)
-		det	 = dot(self.e0, pvec)
+		det	 = vetor.dot(self.e0, pvec)
 		tvec = eye.pos - self.v0
 		qvec = cross(tvec, self.e0)
-		u = dot(tvec,     pvec)
-		v = dot(eye.unit, qvec)
+		u = vector.dot(tvec,     pvec)
+		v = vector.dot(eye.unit, qvec)
 		if u < 0 or u   > det:
 			return 0
 		if v < 0 or u+v > det:
 			return 0
-		t = dot(self.e1, qvec)
+		t = vector.dot(self.e1, qvec)
 		if t < 0:
 			return 0
 		det = 1.0/det
