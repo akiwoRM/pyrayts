@@ -3,22 +3,22 @@
 # Copyright (c) 2010, Tatsuya Akagi
 # All rights reserved.
 #
-# Redistribution and use in source and binary forms, 
-# with or without modification, 
+# Redistribution and use in source and binary forms,
+# with or without modification,
 # are permitted provided that the following conditions are met:
 #
 #  * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-#  * Redistributions in binary form must reproduce the above copyright notice, 
+#  * Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-#  * Neither the name of the RedM Studio nor the names of its contributors may be used to endorse 
+#  * Neither the name of the RedM Studio nor the names of its contributors may be used to endorse
 #    or promote products derived from this software without specific prior written permission.
 #
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
-# OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+# OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 from .. vector  import *
@@ -54,13 +54,13 @@ class sphere(shape):
 		xc = eye.pos - self.pos
 		xdt = vector.dot(eye.unit,xc)
 		de = xdt * xdt - vector.dot(xc,xc) + self.radius *self.radius
-		
+
 		if de < 0:
 			return 0
-		
+
 		tp = -xdt + math.sqrt(de)
 		tm = -xdt - math.sqrt(de)
-		
+
 		tr = 0
 		if tp > 0 or tm > 0:
 			if tp > 0 and tm > 0:
@@ -87,9 +87,9 @@ class particle(shape):
 	pass
 
 class plane(shape):
-	def __init__(self, y=0):
+	def __init__(self, y=0, norm=vector(0.0, 1.0, 0.0)):
 		self.y = y
-		self.normal = vector(0.0, 1.0, 0.0)
+		self.normal = norm
 	def intersect(self, eye, nearClip, farClip):
 		if eye.unit.y == 0:
 			return 0
@@ -114,12 +114,12 @@ class polygon3(shape):
 		self.e0 = v1-v0
 		self.e1 = v2-v0
 		self.uv	= uv()
-		self.normal = cross(self.e0, self.e1).normalize()
+		self.normal = vector.cross(self.e0, self.e1).normalize()
 	def intersect(self, eye, nearClip, farClip):
-		pvec = cross(eye.unit, self.e1)
-		det	 = vetor.dot(self.e0, pvec)
+		pvec = vector.cross(eye.unit, self.e1)
+		det	 = vector.dot(self.e0, pvec)
 		tvec = eye.pos - self.v0
-		qvec = cross(tvec, self.e0)
+		qvec = vector.cross(tvec, self.e0)
 		u = vector.dot(tvec,     pvec)
 		v = vector.dot(eye.unit, qvec)
 		if u < 0 or u   > det:
@@ -133,7 +133,9 @@ class polygon3(shape):
 		t  *= det
 		self.hitPos  = eye(t)
 		self.hitDist = t
-		return 1
+		if t > nearClip and t <farClip:
+			return 1
+		return 0
 	def shading(self, lights):
 		return self.shader.getDiffuse(lights, self.normal, self.hitPos)
 
