@@ -36,5 +36,7 @@ class lambert(shader):
 	def getDiffuse(self, lights, normal, hitPos):
 		diffuse = 0
 		for lit in lights:
-			diffuse += vector.dot(vector.reflection(lit.getDir(hitPos), normal), normal)*lit.getIntencity(hitPos)
+			difDir = vector.dot(vector.reflection(lit.getDir(hitPos), normal), normal)
+			if difDir > 0:
+				diffuse += difDir*lit.getIntencity(hitPos)
 		return self.diffuseColor * diffuse

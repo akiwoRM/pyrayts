@@ -50,12 +50,13 @@ class sphere(shape):
 		self.radius = radiusv
 		self.hitPos = vector()
 		self.shader = lambert()
-	def intersect(self, eye, nearClip, farClip):
+	def intersect(self, eye, nearClip, farClip, isCollision=0):
 		xc = eye.pos - self.pos
 		xdt = vector.dot(eye.unit,xc)
 		de = xdt * xdt - vector.dot(xc,xc) + self.radius *self.radius
 
 		if de < 0:
+				
 			return 0
 
 		tp = -xdt + math.sqrt(de)
@@ -77,6 +78,9 @@ class sphere(shape):
 			self.hitDist = tr;
 			if tr > nearClip and tr <farClip:
 				return 1
+		else:
+			if isCollision:
+				return 1
 		return 0
 
 	def shading(self, lights):
@@ -84,20 +88,22 @@ class sphere(shape):
 		return self.shader.getDiffuse(lights, norm, self.hitPos)
 
 class particle(shape):
-	pass
+	def __init__(self, posv=vector(0,0,0)):
+		self.pos = posv
 
 class plane(shape):
 	def __init__(self, y=0, norm=vector(0.0, 1.0, 0.0)):
 		self.y = y
 		self.normal = norm
-	def intersect(self, eye, nearClip, farClip):
+	def intersect(self, eye, nearClip, farClip, isCollision=0):
 		if eye.unit.y == 0:
 			return 0
 		if vector.dot(eye.unit.reverse(), self.normal) < 0:
 			return 0
 		tr = (self.y - eye.pos.y) / eye.unit.y
 		if tr <= 0:
-			return 0
+			if not isCollision:
+				return 0
 		self.hitPos  = eye(tr)
 		self.hitDist = tr
 		if tr > nearClip and tr <farClip:
@@ -115,7 +121,7 @@ class polygon3(shape):
 		self.e1 = v2-v0
 		self.uv	= uv()
 		self.normal = vector.cross(self.e0, self.e1).normalize()
-	def intersect(self, eye, nearClip, farClip):
+	def intersect(self, eye, nearClip, farClip, isCollision=0):
 		pvec = vector.cross(eye.unit, self.e1)
 		det	 = vector.dot(self.e0, pvec)
 		tvec = eye.pos - self.v0
@@ -129,6 +135,7 @@ class polygon3(shape):
 		t = vector.dot(self.e1, qvec)
 		if t < 0:
 			return 0
+
 		det = 1.0/det
 		t  *= det
 		self.hitPos  = eye(t)
@@ -141,4 +148,13 @@ class polygon3(shape):
 
 
 class polygon4(polygon3):
-	pass
+	def __init__(self,v0=vector(0,0,0),v1=vector(0,0,0), v2=vector(0,0,0), v3=vector(0,0,0)):
+		self.v0=v0
+		self.v1=v1
+		self.v2=v2
+		self.v3=v3
+		self.e0 = v1-v0
+		self.e1 = v2-v0
+		self.e3 = v3-v0
+		self.uv	= uv()
+		self.normal = (vector.cross(self.e0, self.e1)+vector.cross(self.e0, self.e3)).normalize()

@@ -33,7 +33,7 @@ def main():
 	# Initialize output images
 	#width  = 160
 	#height = 120
-	width  = 320
+	width  = 240
 	height = 240
 
 	msg.trace("pyrayts render...","{","Start")
@@ -54,7 +54,7 @@ def main():
 	lmtG = pyrayts.lambert(diffuseColor=pyrayts.color(0.2,0.7,0.2))
 
 	# create rendered objects
-	sph  = pyrayts.sphere(pyrayts.vector( 0, 0.5, 0), 0.5)
+	sph  = pyrayts.sphere(pyrayts.vector( 0.0, 0.5, 0.0), 0.5)
 	sph.setShader(sphereShader)
 	renderScene.append(sph)
 
@@ -110,7 +110,7 @@ def main():
 	polyRight2.setShader(lmtR)
 	renderScene.append(polyRight2)
 
-	pl = pyrayts.plane(y=0)
+	pl = pyrayts.plane(y=0.0)
 	pl.setShader(lmtGray)
 	renderScene.append(pl)
 
@@ -119,8 +119,9 @@ def main():
 	#renderScene.append(plTop)
 
 	# render lights
-	#lit = directionalLight()
 	lit = pyrayts.pointLight()
+	#lit = pyrayts.spotLight(intencity=10, coneAngle=120)
+	#lit.dir       =  pyrayts.vector(0.0, -1.0,  0.0)
 	lit.intencity = 0.75
 	lit.isShadow  = True
 	lit.translate =  pyrayts.vector(-0.5, 1.2, -0.7)
@@ -135,7 +136,7 @@ def main():
 
 	# render camera
 	cam = pyrayts.camera()
-	cam.translate   = pyrayts.vector(0, 1.0, -4.0)
+	cam.translate   = pyrayts.vector(0, 1.0, -3.0)
 	cam.aimPos      = pyrayts.vector(0, 1.0,    0)
 	cam.angle       = 50.0
 	renderScene.setCamera(cam)

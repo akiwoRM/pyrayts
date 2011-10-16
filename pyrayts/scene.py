@@ -73,7 +73,7 @@ class scene:
 					continue
 				shadow_eye = ray(hitPos, (lt.translate-hitPos).normalize())
 				maxL = (lt.translate-hitPos).length()
-				shadowRet  = shadow_eye.intersect(self.objects, 0.0, maxL, self.objects[hitIdx])
+				shadowRet  = shadow_eye.intersect(self.objects, 0.0, maxL, 1, self.objects[hitIdx])
 				if shadowRet[0] != -1:
 					#print hitIdx, shadowRet[0]
 					return color(0,0,0)
