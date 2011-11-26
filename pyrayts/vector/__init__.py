@@ -3,25 +3,25 @@
 # Copyright (c) 2010, Tatsuya Akagi
 # All rights reserved.
 #
-# Redistribution and use in source and binary forms, 
-# with or without modification, 
+# Redistribution and use in source and binary forms,
+# with or without modification,
 # are permitted provided that the following conditions are met:
 #
 #  * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-#  * Redistributions in binary form must reproduce the above copyright notice, 
+#  * Redistributions in binary form must reproduce the above copyright notice,
 #    this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-#  * Neither the name of the RedM Studio nor the names of its contributors may be used to endorse 
+#  * Neither the name of the RedM Studio nor the names of its contributors may be used to endorse
 #    or promote products derived from this software without specific prior written permission.
 #
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
-# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
-# OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+# INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+# OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-import math 
+import math
 
 class vector:
 	def __init__(self, *argv):
@@ -43,6 +43,14 @@ class vector:
 			return vector(self.x * vec.x, self.y * vec.y, self.z * vec.z)
 		else:
 			return vector(self.x * vec, self.y * vec, self.z * vec)
+	def __lt__(self, vec):
+		if self.x < vec.x and self.y < vec.y and self.z < vec.z:
+			return 1
+		return 0
+	def __gt__(self, vec):
+		if self.x > vec.x and self.y > vec.y and self.z > vec.z:
+			return 1
+		return 0
 	def length(self):
 		self.d = math.sqrt(self.x*self.x+self.y*self.y+self.z*self.z)
 		return self.d
@@ -60,7 +68,7 @@ class vector:
 	@classmethod
 	def dot(cls, vec1, vec2):
 		return vec1.x*vec2.x+vec1.y*vec2.y+vec1.z*vec2.z
-	
+
 	@classmethod
 	def reflection(cls, vec1, norm):
 		return (vec1 - (norm * 2 * cls.dot(vec1, norm))).normalize()
@@ -68,3 +76,18 @@ class vector:
 	@classmethod
 	def cross(cls, vec1, vec2):
 		return vector(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x*vec2.y - vec1.y * vec2.x)
+
+	@classmethod
+	def max(cls, *vecs):
+		cur = vector(-100000, -100000, -100000)
+		for vec in vecs:
+			cur = vector(max(vec.x, cur.x), max(vec.y, cur.y), max(vec.z, cur.z))
+		return cur
+
+	@classmethod
+	def min(cls, *vecs):
+		cur = vector(100000, 100000, 100000)
+		for vec in vecs:
+			cur = vector(min(vec.x, cur.x), min(vec.y, cur.y), min(vec.z, cur.z))
+		return cur
+

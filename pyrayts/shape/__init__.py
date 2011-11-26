@@ -35,6 +35,8 @@ class shape:
 	hitDist = 100000000
 	hitPos  = vector()
 	shader  = ""
+	bbmax   = vector()
+	bbmin   = vector()
 	def classname(self):
 		return 'shape'
 	def intersect(self):
@@ -50,6 +52,8 @@ class sphere(shape):
 		self.radius = radiusv
 		self.hitPos = vector()
 		self.shader = lambert()
+		self.bbmax  = posv + vector(radiusv*0.5, radiusv*0.5, radiusv*0.5)
+		self.bbmin  = posv - vector(radiusv*0.5, radiusv*0.5, radiusv*0.5)
 	def intersect(self, eye, nearClip, farClip, isCollision=0):
 		xc = eye.pos - self.pos
 		xdt = vector.dot(eye.unit,xc)
@@ -121,6 +125,8 @@ class polygon3(shape):
 		self.e1 = v2-v0
 		self.uv	= uv()
 		self.normal = vector.cross(self.e0, self.e1).normalize()
+		self.bbmax = vector(max(v0.x, v1.x, v2.x) ,max(v0.y, v1.y, v2.y), max(v0.z, v1.z, v2.z))
+		self.bbmin = vector(min(v0.x, v1.x, v2.x) ,min(v0.y, v1.y, v2.y), min(v0.z, v1.z, v2.z))
 	def intersect(self, eye, nearClip, farClip, isCollision=0):
 		pvec = vector.cross(eye.unit, self.e1)
 		det	 = vector.dot(self.e0, pvec)

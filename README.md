@@ -14,6 +14,7 @@ System require
 * OS on intel CPU(powerPC not supported)
 * python 2.5 or later
 * wxPython (if you use preview function)
+* pypy (if you wanna rendering more faster)
 
 Installation
 -------

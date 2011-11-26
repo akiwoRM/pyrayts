@@ -95,17 +95,18 @@ class scene:
 		numAntiSep = 1.0/self.antialiasing
 		numSample  = self.antialiasing*self.antialiasing
 		divAvg = 1.0/numSample
-		#[() for dx in range(self.antialiasing) for dy in range(self.antialiasing)]
+		#import itertools
+		#[x for x in itertools.permutations([-0.5, 0.5], 2)]
 
 		for j in range(self.height):
 			for i in range(self.width):
 				outColors = []
 				outColors.append(self._setColor(i, j))
 				#for k in range(numSample):
-				#outColors.append(self._setColor(i+0.5, j-0.5))
-				#outColors.append(self._setColor(i+0.5, j+0.5))
-				#outColors.append(self._setColor(i-0.5, j+0.5))
-				#outColors.append(self._setColor(i-0.5, j-0.5))
+				#	outColors.append(self._setColor(i+0.5, j-0.5))
+				#	outColors.append(self._setColor(i+0.5, j+0.5))
+				#	outColors.append(self._setColor(i-0.5, j+0.5))
+				#	outColors.append(self._setColor(i-0.5, j-0.5))
 				self.imageBuffer.setColor(i, j, averageCol(outColors, divAvg))
 
 	def preview(self):

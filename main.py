@@ -23,6 +23,7 @@
 #
 import pyrayts
 import pyrayts.bmpLib as bl
+import pyrayts.spacePartitioning as sep
 import pyrayts.tools.statistics
 import time
 
@@ -140,6 +141,13 @@ def main():
 	cam.aimPos      = pyrayts.vector(0, 1.0,    0)
 	cam.angle       = 50.0
 	renderScene.setCamera(cam)
+
+	# space partitioning
+	stSepTime = time.time()
+	sp = sep.grid(numOfUnit = 2)
+	sp.garageIn(renderScene.objects)
+	edSepTime = time.time()
+	msg.trace("Space Partition Time : %.6ss"%(edSepTime - stSepTime))
 
 	renderScene.render()
 
