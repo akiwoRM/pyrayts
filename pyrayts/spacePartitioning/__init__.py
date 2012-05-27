@@ -39,7 +39,7 @@ class spacePartitioning:
 		pass
 
 class grid(spacePartitioning):
-	def __init__(self, numOfUnit=-1, ):
+	def __init__(self, numOfUnit=-1 ):
 		if numOfUnit!=-1:
 			self._childs = [grid() for i in range(numOfUnit*numOfUnit*numOfUnit)]
 			self.numOfUnit = numOfUnit
@@ -49,6 +49,15 @@ class grid(spacePartitioning):
 		for obj in objs:
 			curMax = vector.max(obj.bbmax, curMax)
 			curMin = vector.min(obj.bbmin, curMin)
+		unitWidth = (curMax - curMin)*(1.0/self.numOfUnit)
+
+		i = 0
+		for x in range(self.numOfUnit):
+			for y in range(self.numOfUnit):
+				for z in range(self.numOfUnit):
+					self._childs[i].bbmin = curMin
+					self._childs[i].bbmax = curMin
+					i+=1
 
 class octree(spacePartitioning):
 	pass

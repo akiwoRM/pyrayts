@@ -49,7 +49,7 @@ def main():
 	# render objects
 	# create shader
 
-	sphereShader  = pyrayts.lambert(diffuseColor=pyrayts.color(0.6,0.6,0.98))
+	sphereShader  = pyrayts.blinn(diffuseColor=pyrayts.color(0.6,0.6,0.98))
 	lmtGray = pyrayts.lambert(diffuseColor=pyrayts.color(0.95,0.95,0.95))
 	lmtR = pyrayts.lambert(diffuseColor=pyrayts.color(0.85,0.1,0.1))
 	lmtG = pyrayts.lambert(diffuseColor=pyrayts.color(0.2,0.7,0.2))
@@ -143,12 +143,14 @@ def main():
 	renderScene.setCamera(cam)
 
 	# space partitioning
+	"""
 	stSepTime = time.time()
 	sp = sep.grid(numOfUnit = 2)
 	sp.garageIn(renderScene.objects)
 	edSepTime = time.time()
 	msg.trace("Space Partition Time : %.6ss"%(edSepTime - stSepTime))
-
+	"""
+	
 	renderScene.render()
 
 	edTime = time.time()

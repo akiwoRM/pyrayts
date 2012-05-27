@@ -40,3 +40,18 @@ class lambert(shader):
 			if difDir > 0:
 				diffuse += difDir*lit.getIntencity(hitPos)
 		return self.diffuseColor * diffuse
+
+class blinn(shader):
+	power = 2
+	def __init__(self, **args):
+		for key, val in args.items():
+			self.__dict__[key] = val
+		
+	def getDiffuse(self, lights, normal, hitPos):
+		diffuse = 0
+		for lit in lights:
+			difDir = vector.dot(vector.reflection(lit.getDir(hitPos), normal), normal)
+			if difDir > 0:
+				difDir = math.pow(difDir, self.power)
+				diffuse += difDir*lit.getIntencity(hitPos)
+		return self.diffuseColor * diffuse
