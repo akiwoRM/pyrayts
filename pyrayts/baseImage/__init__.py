@@ -22,10 +22,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 from .. color import *
-from .clamp import *
+from . clamp import *
 import struct
 
-class baseImage:
+class baseImage(object):
 	def __init__(self, w=640,h=480):
 		self.width  = w
 		self.height = h

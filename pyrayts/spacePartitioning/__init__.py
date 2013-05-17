@@ -24,7 +24,7 @@
 
 from .. vector import *
 
-class spacePartitioning:
+class spacePartitioning(object):
 	bbmax = vector()
 	bbmin = vector()
 	def _isInclude(self, obj):

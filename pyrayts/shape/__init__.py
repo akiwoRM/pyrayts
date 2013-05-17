@@ -26,12 +26,12 @@ from .. color   import *
 from .. shading import *
 import math
 
-class uv:
+class uv(object):
 	def __init__(self, u=0, v=0):
 		self.u = u
 		self.v = v
 
-class shape:
+class shape(object):
 	hitDist = 100000000
 	hitPos  = vector()
 	shader  = ""

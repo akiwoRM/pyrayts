@@ -23,7 +23,7 @@
 #
 
 from .. vector import *
-class transform:
+class transform(object):
 	translate = vector()
 	rotate    = vector()
 

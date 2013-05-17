@@ -22,18 +22,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 import struct
+import sys
 from .. baseImage.clamp import *
 
-"""
-def clamp(v, min=0, max=255):
-	if v < min:
-		return min
-	if v > max:
-		return max
-	return v
-"""
-
-class bmpLib:
+class bmpLib(object):
 	def __init__(self, *args):
 		self.filename = args[0]
 		self.width    = args[1] 
@@ -42,7 +34,11 @@ class bmpLib:
 
 	def setHeader(self, fp):
 		# BITMAPFILEHEADER
-		fp.write("BM")
+		if sys.version_info[0] > 2:
+			header = b"BM"
+		else:
+			header = "BM"
+		fp.write(header)
 		fsize = 54 + self.width * self.height * 3
 		fp.write(struct.pack("I",fsize))
 		fp.write(struct.pack("H",0))
@@ -62,7 +58,6 @@ class bmpLib:
 		fp.write(struct.pack("I",0))
 		fp.write(struct.pack("I",0))
 
-
 	def save(self, buf):
 		fp = open(self.filename, "wb")
 		self.setHeader(fp)
@@ -70,8 +65,8 @@ class bmpLib:
 		#	fp.write(struct.pack("B",clamp(b*255)))
 		for h in reversed(range(1, self.height+1)):
 			for w in range(0, self.width):
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].b * 255)))
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].g * 255)))
-				fp.write(struct.pack("B", clamp(buf.col[self.width*(h-1)+w].r * 255)))
+				fp.write(struct.pack("B", int(clamp(buf.col[self.width*(h-1)+w].b * 255))))
+				fp.write(struct.pack("B", int(clamp(buf.col[self.width*(h-1)+w].g * 255))))
+				fp.write(struct.pack("B", int(clamp(buf.col[self.width*(h-1)+w].r * 255))))
 		fp.close()
 

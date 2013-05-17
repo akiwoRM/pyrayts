@@ -21,14 +21,14 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-from light     import *
-from vector    import *
-from color     import *
-from camera    import *
-from shape     import *
-from shading   import *
-from ray       import *
-from baseImage import *
+from . light     import *
+from . vector    import *
+from . color     import *
+from . camera    import *
+from . shape     import *
+from . shading   import *
+from . ray       import *
+from . baseImage import *
 
 try:
 	import wx
@@ -44,7 +44,7 @@ def averageCol(colList, divNum):
 		defCol+=col
 	return defCol * divNum
 
-class scene:
+class scene(object):
 	def __init__(self):
 		self.width   = 320
 		self.height  = 240

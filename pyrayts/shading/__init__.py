@@ -25,7 +25,7 @@ from .. color  import *
 from .. vector import *
 from .. light  import *
 
-class shader:
+class shader(object):
 	diffuseColor = color(0.5, 0.5, 0.5)
 
 class lambert(shader):

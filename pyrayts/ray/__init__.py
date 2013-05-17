@@ -23,7 +23,7 @@
 #
 from .. vector import *
 
-class ray:
+class ray(object):
 	def __init__(self, initPos=vector(0,0,0), initUnit=vector(0,0,0)):
 		self.pos  = initPos
 		self.unit = initUnit

@@ -22,7 +22,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-class color:
+class color(object):
 	def __init__(self, *args):
 		if args==():
 			self.r=0
@@ -43,5 +43,5 @@ class color:
 		else:
 			return color(self.r*val, self.g*val, self.b*val)
 	def display(self):
-		print self.r, self.g, self.b
+		print(self.r, self.g, self.b)
 

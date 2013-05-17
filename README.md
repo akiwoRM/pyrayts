@@ -1,6 +1,6 @@
 Pyrayts
 =============
-
+![alt text](https://dl.dropboxusercontent.com/u/1440936/box.png)
 Pyrayts is ray tracer package by python.
 
 Code license
